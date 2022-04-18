@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class Main {
+
     public static void main(String[] args) {
         // Task 1. Leap year or not. Version 2 with method
 
@@ -60,18 +61,10 @@ public class Main {
 
     public static boolean leapYearOrNot(int year){
 
-        boolean isFourHundredth = (year % 400) == 0, isHundredth = (year % 100) == 0,
-                isFourth = (year % 4) == 0;
-
-        if(isFourHundredth) {
+        if((year % 4) == 0 && !((year % 100) == 0) || (year % 400) == 0)
             return true;
-        } else if(isHundredth) {
+        else
             return false;
-        } else if(isFourth) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static int checkAppsVersion(boolean clientOS, int clientDeviceYear) {
@@ -109,12 +102,9 @@ public class Main {
 
         System.out.println("String argument = " + s);
 
-        int currentPosition = 0;
-        char currentChar = 'a';
-
         for(int i = 0; i < s.length()-1; i++)
             if(s.charAt(i) == s.charAt(i+1)){
-                System.out.println("Duplicate found! Duplicated character: " + currentChar +
+                System.out.println("Duplicate found! Duplicated character: " + s.charAt(i) +
                         " at position " + i);
                 return;
             }
