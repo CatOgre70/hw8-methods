@@ -22,21 +22,9 @@ public class Main {
         int clientDeviceYear = LocalDate.now().getYear();
         System.out.println(userMessages[checkAppsVersion(clientOS, clientDeviceYear)]);
 
-        // clientOS = true;
-        // clientDeviceYear = 2077;
-        // System.out.println(userMessages[checkAppsVersion(clientOS, clientDeviceYear)]);
-
-        // clientOS = false;
-        // clientDeviceYear = 2010;
-        // System.out.println(userMessages[checkAppsVersion(clientOS, clientDeviceYear)]);
-
-        // clientOS = true;
-        // clientDeviceYear = 2010;
-        // System.out.println(userMessages[checkAppsVersion(clientOS, clientDeviceYear)]);
-
         // Task 3. Banking card delivery calculation
 
-        float distance = 61.5f;
+        double distance = 61.5f;
         int deliveryDays = calculateDeliveryDays(distance);
         if(deliveryDays > 0){
             System.out.println("На доставку вашей карты потребуется дней: " + deliveryDays);
@@ -57,14 +45,25 @@ public class Main {
         reverseArray(array);
         System.out.println("Стало: " + Arrays.toString(array));
 
+        // Task 6. Calculate the average payment in array of monthly payments
+
+        final int MONTHS_NUMBER = 30;
+        final int MIN_PAYMENT = 100_000;
+        final int MAX_PAYMENT = 200_000;
+        int[] payments = generateRandomArray(MONTHS_NUMBER, MIN_PAYMENT, MAX_PAYMENT);
+        double averagePayment = calculateAverage(payments);
+        System.out.println("Средний платеж за " + MONTHS_NUMBER + " месяцев составляет "
+                + averagePayment + " рублей");
+        averagePayment = (double) calculateSum(payments) / MONTHS_NUMBER;
+        System.out.println("Средний платеж за " + MONTHS_NUMBER + " месяцев составляет "
+                + averagePayment + " рублей");
+
     }
 
     public static boolean leapYearOrNot(int year){
 
-        if((year % 4) == 0 && !((year % 100) == 0) || (year % 400) == 0)
-            return true;
-        else
-            return false;
+        return (year % 4) == 0 && !((year % 100) == 0) || (year % 400) == 0;
+
     }
 
     public static int checkAppsVersion(boolean clientOS, int clientDeviceYear) {
@@ -82,15 +81,15 @@ public class Main {
         }
     }
 
-    public static int calculateDeliveryDays(float distance){
+    public static int calculateDeliveryDays(double distance){
 
         int deliveryDays = 1;
 
-        if(distance < 0f){
+        if(distance < 0){
             throw new RuntimeException("Ошибка! Расстояние до клиента не может быть отрицательным!");
-        } else if(distance > 20.0f && distance <= 60.0f) {
+        } else if(distance > 20.0 && distance <= 60.0) {
             deliveryDays++;
-        } else if(distance > 60.0f && distance <= 100.0f) {
+        } else if(distance > 60.0 && distance <= 100.0) {
             deliveryDays += 2;
         } else {
             return -1;
@@ -116,8 +115,30 @@ public class Main {
         for(int i = 0; i < array.length / 2; i++){
             array[i] =array[i] + array[array.length - 1 - i];
             array[array.length - 1 - i] = array[i] - array[array.length - 1 - i];
-            array[i] = array[i] -    array[array.length - 1 - i];
+            array[i] = array[i] - array[array.length - 1 - i];
         }
+    }
+
+    public static int[] generateRandomArray(int arrayLength, int minValue, int maxValue) {
+        java.util.Random random = new java.util.Random();
+        int[] arr = new int[arrayLength];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = random.nextInt(maxValue - minValue) + minValue;
+        }
+        return arr;
+    }
+
+    public static int calculateSum(int[] array){
+        int sum = 0;
+        for(int i : array){
+            sum += i;
+        }
+        return sum;
+    }
+
+    public static double calculateAverage(int[] array){
+        int sum = calculateSum(array);
+        return (double) sum / array.length;
     }
 
 }
